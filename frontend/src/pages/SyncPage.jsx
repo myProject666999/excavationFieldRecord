@@ -5,7 +5,7 @@ import {
 } from 'antd'
 import {
   CloudUploadOutlined, CloudDownloadOutlined, CloudSyncOutlined,
-  DeleteOutlined, WifiOutlined, WifiOffOutlined, ClockCircleOutlined,
+  DeleteOutlined, GlobalOutlined, DisconnectOutlined, ClockCircleOutlined,
   CheckCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined,
   ReloadOutlined, ExperimentOutlined, AppstoreOutlined, DatabaseOutlined,
   ProfileOutlined, CameraOutlined, FolderOpenOutlined
@@ -414,7 +414,7 @@ const SyncPage = () => {
                     {online ? '在线' : '离线'}
                   </span>
                 </Badge>
-                {online ? <WifiOutlined style={{ color: '#52c41a' }} /> : <WifiOffOutlined style={{ color: '#bfbfbf' }} />}
+                {online ? <GlobalOutlined style={{ color: '#52c41a' }} /> : <DisconnectOutlined style={{ color: '#bfbfbf' }} />}
               </Space>
             </Space>
           </Col>
@@ -438,8 +438,8 @@ const SyncPage = () => {
           showIcon
           style={{ marginBottom: 16 }}
           message="当前处于离线状态"
-          description="数据操作将自动缓存到本地队列，待网络恢复后可点击"上传所有待同步数据"按钮进行同步。"
-          icon={<WifiOffOutlined />}
+          description="数据操作将自动缓存到本地队列，待网络恢复后可点击'上传所有待同步数据'按钮进行同步。"
+          icon={<DisconnectOutlined />}
         />
       )}
 

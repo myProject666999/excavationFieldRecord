@@ -685,7 +685,7 @@ const StratigraphiesPage = () => {
               />
             </div>
           ) : (
-            <Empty description="尚未添加层位，点击\"添加层位\"开始记录" image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ padding: '20px 0' }} />
+            <Empty description="尚未添加层位，点击'添加层位'开始记录" image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ padding: '20px 0' }} />
           )}
         </Form>
       </Modal>

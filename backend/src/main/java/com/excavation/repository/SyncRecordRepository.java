@@ -14,15 +14,15 @@ import java.util.Optional;
 @Repository
 public interface SyncRecordRepository extends JpaRepository<SyncRecord, Long>, JpaSpecificationExecutor<SyncRecord> {
 
-    List<SyncRecord> findBySyncTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
+    List<SyncRecord> findByCreatedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
 
     List<SyncRecord> findBySyncStatus(String syncStatus);
 
-    @Query("SELECT s FROM SyncRecord s WHERE s.entityType = :entityType AND s.syncTime >= :syncTime ORDER BY s.syncTime DESC")
-    List<SyncRecord> findRecentByEntityType(@Param("entityType") String entityType, @Param("syncTime") LocalDateTime syncTime);
+    @Query("SELECT s FROM SyncRecord s WHERE s.tableName = :tableName AND s.createdAt >= :createdAt ORDER BY s.createdAt DESC")
+    List<SyncRecord> findRecentByTableName(@Param("tableName") String tableName, @Param("createdAt") LocalDateTime createdAt);
 
     @Query("SELECT COUNT(s) FROM SyncRecord s WHERE s.syncStatus = :syncStatus")
     long countBySyncStatus(@Param("syncStatus") String syncStatus);
 
-    Optional<SyncRecord> findFirstByOrderBySyncTimeDesc();
+    Optional<SyncRecord> findFirstByOrderByCreatedAtDesc();
 }

@@ -765,3 +765,11 @@ const ArtifactsPage = () => {
                 {detailArtifact.discoveryTime ? dayjs(detailArtifact.discoveryTime).format('YYYY-MM-DD HH:mm:ss') : '-'}
               </Descriptions.Item>
             </Descriptions>
+          </>
+        )}
+      </Drawer>
+    </div>
+  )
+}
+
+export default ArtifactsPage
