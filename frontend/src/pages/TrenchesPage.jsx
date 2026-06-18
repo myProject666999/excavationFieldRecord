@@ -7,7 +7,7 @@ import {
   PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined,
   ReloadOutlined, AppstoreOutlined, UnorderedListOutlined, InfoCircleOutlined
 } from '@ant-design/icons'
-import axios from 'axios'
+import api from '../api'
 import dayjs from 'dayjs'
 
 const { Option } = Select
@@ -107,7 +107,7 @@ const TrenchesPage = () => {
 
   const fetchSites = async () => {
     try {
-      const res = await axios.get('/api/sites/')
+      const res = await api.get('/sites/')
       setSites(res.data || [])
     } catch (error) {
       console.error('获取遗址列表失败:', error)
@@ -117,13 +117,14 @@ const TrenchesPage = () => {
   const fetchTrenches = async (page = 1, pageSize = 10, siteId, params = {}) => {
     setLoading(true)
     try {
-      const query = new URLSearchParams({
-        page: page - 1,
-        size: pageSize,
-        ...(siteId ? { siteId } : {}),
-        ...params
-      }).toString()
-      const res = await axios.get(`/api/trenches/page?${query}`)
+      const res = await api.get('/trenches/page', {
+        params: {
+          page: page - 1,
+          size: pageSize,
+          ...(siteId ? { siteId } : {}),
+          ...params
+        }
+      })
       const pageData = res.data || {}
       setData(pageData.content || pageData.list || [])
       setPagination({
@@ -144,7 +145,7 @@ const TrenchesPage = () => {
       return
     }
     try {
-      const res = await axios.get(`/api/trenches/site/${siteId}`)
+      const res = await api.get(`/trenches/site/${siteId}`)
       setAllTrenches(res.data || [])
     } catch (error) {
       console.error('获取探方网格数据失败:', error)
@@ -154,8 +155,8 @@ const TrenchesPage = () => {
   const fetchTrenchDetail = async (trenchId) => {
     try {
       const [detailRes, artifactsRes] = await Promise.all([
-        axios.get(`/api/trenches/${trenchId}`),
-        axios.get(`/api/trenches/${trenchId}/artifacts`).catch(() => ({ data: [] }))
+        api.get(`/trenches/${trenchId}`),
+        api.get(`/artifacts/trench/${trenchId}`).catch(() => ({ data: [] }))
       ])
       setSelectedTrench(detailRes.data || null)
       setTrenchArtifacts(artifactsRes.data?.list || artifactsRes.data || [])
@@ -207,7 +208,7 @@ const TrenchesPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/trenches/${id}`)
+      await api.delete(`/trenches/${id}`)
       message.success('删除成功')
       fetchTrenches(pagination.current, pagination.pageSize, selectedSiteId, searchParams)
       fetchAllTrenchesBySite(selectedSiteId)
@@ -230,10 +231,10 @@ const TrenchesPage = () => {
         endDate: values.endDate ? values.endDate.format('YYYY-MM-DD') : null
       }
       if (editingId) {
-        await axios.put(`/api/trenches/${editingId}`, payload)
+        await api.put(`/trenches/${editingId}`, payload)
         message.success('修改成功')
       } else {
-        await axios.post('/api/trenches', payload)
+        await api.post('/trenches/', payload)
         message.success('新增成功')
       }
       setModalOpen(false)

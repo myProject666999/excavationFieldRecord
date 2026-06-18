@@ -61,7 +61,7 @@ public class Artifact {
     @Column(name = "associates", columnDefinition = "TEXT")
     private String associates;
 
-    @Column(name = "condition", length = 50)
+    @Column(name = "`condition`", length = 50)
     private String condition;
 
     @Column(name = "storage_location", length = 100)

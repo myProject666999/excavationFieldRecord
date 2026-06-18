@@ -25,8 +25,8 @@ export const downloadAll = async () => {
   let hasError = false
 
   try {
-    const sitesRes = await api.get('/sites')
-    const sites = sitesRes?.data?.list || sitesRes?.data || []
+    const sitesRes = await api.get('/sites/')
+    const sites = sitesRes?.data || []
     await saveToOffline(TABLE_KEYS.sites, sites)
     results.sites = sites.length
     totalDownloaded += sites.length
@@ -37,8 +37,8 @@ export const downloadAll = async () => {
   }
 
   try {
-    const trenchesRes = await api.get('/trenches')
-    const trenches = trenchesRes?.data?.list || trenchesRes?.data || []
+    const trenchesRes = await api.get('/trenches/')
+    const trenches = trenchesRes?.data || []
     await saveToOffline(TABLE_KEYS.trenches, trenches)
     results.trenches = trenches.length
     totalDownloaded += trenches.length
@@ -49,8 +49,8 @@ export const downloadAll = async () => {
   }
 
   try {
-    const artifactsRes = await api.get('/artifacts')
-    const artifacts = artifactsRes?.data?.list || artifactsRes?.data || []
+    const artifactsRes = await api.get('/artifacts/')
+    const artifacts = artifactsRes?.data || []
     await saveToOffline(TABLE_KEYS.artifacts, artifacts)
     results.artifacts = artifacts.length
     totalDownloaded += artifacts.length
@@ -61,8 +61,8 @@ export const downloadAll = async () => {
   }
 
   try {
-    const stratigraphiesRes = await api.get('/stratigraphies')
-    const stratigraphies = stratigraphiesRes?.data?.list || stratigraphiesRes?.data || []
+    const stratigraphiesRes = await api.get('/stratigraphies/')
+    const stratigraphies = stratigraphiesRes?.data || []
     await saveToOffline(TABLE_KEYS.stratigraphies, stratigraphies)
     results.stratigraphies = stratigraphies.length
     totalDownloaded += stratigraphies.length

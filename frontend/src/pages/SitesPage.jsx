@@ -4,7 +4,7 @@ import {
   message, Space, Card, Row, Col, Tag
 } from 'antd'
 import { PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons'
-import axios from 'axios'
+import api from '../api'
 import dayjs from 'dayjs'
 
 const { Option } = Select
@@ -27,12 +27,7 @@ const SitesPage = () => {
   const fetchData = async (page = 1, pageSize = 10, params = {}) => {
     setLoading(true)
     try {
-      const queryParams = new URLSearchParams({
-        page: page - 1,
-        size: pageSize,
-        ...params
-      }).toString()
-      const res = await axios.get(`/api/sites/page?${queryParams}`)
+      const res = await api.get('/sites/page', { params: { page: page - 1, size: pageSize, ...params } })
       const pageData = res.data || {}
       setData(pageData.content || pageData.list || [])
       setPagination({
@@ -82,7 +77,7 @@ const SitesPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/sites/${id}`)
+      await api.delete(`/sites/${id}`)
       message.success('删除成功')
       fetchData(pagination.current, pagination.pageSize, searchParams)
     } catch (error) {
@@ -100,10 +95,10 @@ const SitesPage = () => {
         endDate: values.endDate ? values.endDate.format('YYYY-MM-DD') : null
       }
       if (editingId) {
-        await axios.put(`/api/sites/${editingId}`, payload)
+        await api.put(`/sites/${editingId}`, payload)
         message.success('修改成功')
       } else {
-        await axios.post('/api/sites', payload)
+        await api.post('/sites/', payload)
         message.success('新增成功')
       }
       setModalOpen(false)
